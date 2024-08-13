@@ -1,7 +1,9 @@
 package main
 
 import (
+	"log"
 	"net/http"
+
 	"github.com/gorilla/mux"
 )
 
@@ -37,12 +39,24 @@ func NewApiSerer(listenAddr string) *APIServer {
 
 func (s *APIServer) Run() {
 	router := mux.NewRouter()
-	router.HandleFunc("/account", s.handleAccount)
+	router.HandleFunc("/account", makeHTTPHandleFunc(s.handleAccount))
+	log.Println("Starting server on", s.listenAddr)
+	http.ListenAndServe(s.listenAddr, router)
 	
 }
 
 func (s *APIServer) handleAccount(w http.ResponseWriter, r *http.Request) error {
-	return nil
+	if(r.Method == "GET") {
+		return s.handleGetAccount(w, r)
+	}
+	if(r.Method == "POST") {
+		return s.handleCreateAccount(w, r)
+	}
+	if(r.Method == "DELETE") {
+		return s.handleDeleteAccount(w, r)
+	}
+
+	return fmt.Errorf("Unsupported method")
 }
 
 func (s *APIServer) handleGetAccount(w http.ResponseWriter, r *http.Request) error {
