@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"github.com/gorilla/mux"
@@ -12,7 +14,7 @@ func WriteJSON(w http.ResponseWriter, status int, v any) error {
 	return json.NewEncoder(w).Encode(v)
 }
 
-type apiFunc(http.ResponseWriter, *http.Request) error
+type apiFunc func(http.ResponseWriter, *http.Request) error
 
 type ApiError struct {
 	Error string
