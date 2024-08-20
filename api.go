@@ -43,7 +43,7 @@ func (s *APIServer) handleAccount(w http.ResponseWriter, r *http.Request) error 
 		return s.handleDeleteAccount(w, r)
 	}
 
-	return fmt.Errorf("Unsupported method")
+	return fmt.Errorf("unsupported method")
 }
 
 func (s *APIServer) handleGetAccount(w http.ResponseWriter, r *http.Request) error {
