@@ -12,6 +12,10 @@ func main() {
 	}
 	fmt.Printf("%+v\n",store)
 
-	// server := NewAPIServer(":8080")
-	// server.Run()
+	if err := store.Init(); err != nil {
+		log.Fatal(err)
+	}
+
+	server := NewAPIServer(":8080", store)
+	server.Run()
 }
